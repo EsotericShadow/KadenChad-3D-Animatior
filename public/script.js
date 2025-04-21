@@ -200,7 +200,7 @@ class PortfolioScene {
                 z: -500,
                 html: `
                     <div class="raw-logo">
-                        <img src="assets/logo.png" alt="Kaden Chad Logo">
+                        <img src="/assets/logo.png" alt="Kaden Chad Logo">
                     </div>
                 `
             },
@@ -219,7 +219,7 @@ class PortfolioScene {
                             </div>
                         </div>
                         <div class="profile-pic-container">
-                            <img src="https://via.placeholder.com/150?text=Profile" alt="Profile Picture" class="profile-pic">
+                            <img src="/assets/profile.png" alt="Profile Picture" class="profile-pic">
                         </div>
                     </div>
                 `
@@ -271,7 +271,6 @@ class PortfolioScene {
             mesh.userData.index = index;
             this.scene.add(mesh);
 
-            // Initial positioning using offsetWidth/offsetHeight
             div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
             div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
             div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);

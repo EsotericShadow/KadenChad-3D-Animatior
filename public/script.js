@@ -219,7 +219,7 @@ class PortfolioScene {
                             </div>
                         </div>
                         <div class="profile-pic-container">
-                            <img src="/assets/profile.png" alt="Profile Picture" class="profile-pic">
+                            <img src="assets/profile.png" alt="Profile Picture" class="profile-pic">
                         </div>
                     </div>
                 `

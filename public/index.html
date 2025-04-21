@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaden Chad | 3D Animator Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-logo">Kaden Chad</div>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link active" data-index="0">Home</a></li>
+            <li><a href="#bio" class="nav-link" data-index="2">Bio</a></li>
+            <li><a href="#reel" class="nav-link" data-index="3">Reel</a></li>
+            <li><a href="#contact" class="nav-link" data-index="4">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Progress Timeline -->
+    <div id="progress-timeline">
+        <div class="timeline-marker active" data-index="0"></div>
+        <div class="timeline-marker" data-index="2"></div>
+        <div class="timeline-marker" data-index="3"></div>
+        <div class="timeline-marker" data-index="4"></div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip">Scroll to explore</div>
+
+    <!-- Three.js Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Social Orbs -->
+    <div class="social-orbs">
+        <a href="https://linkedin.com" target="_blank" class="orb linkedin" title="LinkedIn"></a>
+        <a href="https://artstation.com" target="_blank" class="orb artstation" title="ArtStation"></a>
+        <a href="https://vimeo.com" target="_blank" class="orb vimeo" title="Vimeo"></a>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

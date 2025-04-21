@@ -233,7 +233,7 @@ body {
 
 .badge {
     padding: 6px 14px;
-    background: rgba(0, PWD123, 255, 0.2);
+    background: rgba(0, 123, 255, 0.2);
     border-radius: 18px;
     font-size: 0.85rem;
     color: #ffffff;
@@ -330,15 +330,15 @@ body {
 }
 
 .linkedin {
-    background: url('https://via.placeholder.com/50?text=LI') center/cover;
+    background: url('/assets/linkedin-logo.png') center/cover;
 }
 
 .artstation {
-    background: url('https://via.placeholder.com/50?text=AS') center/cover;
+    background: url('/assets/artstation-logo.png') center/cover;
 }
 
 .vimeo {
-    background: url('https://via.placeholder.com/50?text=VM') center/cover;
+    background: url('/assets/vimeo-logo.png') center/cover;
 }
 
 @media (max-width: 768px) {

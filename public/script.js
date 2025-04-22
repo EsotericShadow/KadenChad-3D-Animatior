@@ -200,7 +200,7 @@ class PortfolioScene {
                 z: -500,
                 html: `
                     <div class="raw-logo">
-                        <img src="assets/Logo.png" alt="Kaden Chad Logo" onload="this.parentElement.style.opacity = '1'">
+                        <img src="./assets/Logo.png" alt="Kaden Chad Logo">
                     </div>
                 `
             },

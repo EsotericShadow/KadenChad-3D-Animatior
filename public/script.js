@@ -28,7 +28,7 @@ class PortfolioScene {
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
         this.camera.position.set(0, 0, 1000);
-        this.zoomZ = 1000;
+        this.zoomZ = -500; // Set to match the logo frame's z position
         this.activeFrameIndex = 0;
         this.frames = [];
         this.particles = [];
@@ -200,7 +200,7 @@ class PortfolioScene {
                 z: -500,
                 html: `
                     <div class="raw-logo">
-                        <img src="assets/Logo.png" alt="Kaden Chad Logo">
+                        <img src="assets/Logo.png" alt="Kaden Chad Logo" onload="this.parentElement.style.opacity = '1'">
                     </div>
                 `
             },
@@ -271,8 +271,18 @@ class PortfolioScene {
             mesh.userData.index = index;
             this.scene.add(mesh);
 
-            div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
-            div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`; // Corrected from innerWidth to innerHeight
+            // Position after the image loads to ensure correct offsetWidth/Height
+            const img = div.querySelector('img');
+            if (img) {
+                img.onload = () => {
+                    div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
+                    div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
+                };
+            } else {
+                div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
+                div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
+            }
+
             div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
             div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 
@@ -322,6 +332,7 @@ class PortfolioScene {
 
             if (index === 0) {
                 frame.div.classList.toggle('raw-logo-visible', isActive);
+                console.log('Logo Visibility:', frame.div.classList.contains('raw-logo-visible')); // Debugging
             } else {
                 frame.div.classList.toggle('frame-visible', isActive);
             }

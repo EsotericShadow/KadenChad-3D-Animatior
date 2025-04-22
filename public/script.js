@@ -259,45 +259,44 @@ class PortfolioScene {
 
         
         frameData.forEach((config, index) => {
-            const div = document.createElement('div');
-            div.className = index === 0 ? 'raw-logo' : 'frame';
-            div.innerHTML = config.html;
-            document.body.appendChild(div);
-            
-            const img = div.querySelector('img');
-            if (img) {
-                img.onerror = () => {
-                    console.error('Failed to load image:', img.src);
-                };
-            }
+        const div = document.createElement('div');
+        div.className = index === 0 ? 'raw-logo' : 'frame';
+        div.innerHTML = config.html;
+        document.body.appendChild(div);
 
+        // Error handling moved INSIDE the loop
+        const img = div.querySelector('img');
+        if (img) {
+            img.onerror = () => {
+                console.error('Failed to load image:', img.src);
+            };
+        }
 
-            const mesh = new THREE.Mesh(
-                new THREE.PlaneGeometry(20, 15),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            mesh.position.z = config.z;
-            mesh.userData.index = index;
-            this.scene.add(mesh);
+        const mesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(20, 15),
+            new THREE.MeshBasicMaterial({ visible: false })
+        );
+        mesh.position.z = config.z;
+        mesh.userData.index = index;
+        this.scene.add(mesh);
 
-            // Position after the image loads to ensure correct offsetWidth/Height
-            const img = div.querySelector('img');
-            if (img) {
-                img.onload = () => {
-                    div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
-                    div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
-                };
-            } else {
-                div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
-                div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
-            }
+        // Position after the image loads
+        if (img) {
+            img.onload = () => {
+                div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
+                div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
+            };
+        } else {
+            div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
+            div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
+        }
 
-            div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
-            div.style.pointerEvents = index === 0 ? 'auto' : 'none';
+        div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
+        div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 
-            this.frames.push({ mesh, div, zPos: config.z });
-        });
-    }
+        this.frames.push({ mesh, div, zPos: config.z });
+    });
+}
 
     updateNavLinks() {
         document.querySelectorAll('.nav-link').forEach(link => {

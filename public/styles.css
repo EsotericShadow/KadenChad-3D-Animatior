@@ -639,7 +639,7 @@ body {
 
     .header-content {
         flex-direction: column;
-        align-items: center;
+        align-items: start;
         text-align: center;
         padding-top: 120px; /* Increased padding for better spacing with profile pic */
     }

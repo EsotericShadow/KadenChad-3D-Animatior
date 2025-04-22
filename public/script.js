@@ -193,7 +193,7 @@ class PortfolioScene {
     createContentFrames() {
         const frameData = [
             {
-                z: -500,
+                z: 0,
                 html: `
                     <div class="raw-logo">
                         <img src="./assets/Logo.png" alt="Kaden Chad Logo">

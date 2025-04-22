@@ -195,7 +195,7 @@ class PortfolioScene {
             {
                 z: -500,
                 html: `
-                    <img src="https://via.placeholder.com/200" alt="Kaden Chad Logo" class="logo-img">
+                    <img src="assets/Logo.png" alt="Kaden Chad Logo" class="logo-img">
                 `
             },
             {

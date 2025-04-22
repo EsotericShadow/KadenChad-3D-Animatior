@@ -27,7 +27,7 @@ class PortfolioScene {
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
         this.camera.position.set(0, 0, 1000);
-        this.zoomZ = -500; // Start at logo
+        this.zoomZ = -500; // Set to match the logo frame's z position
         this.activeFrameIndex = 0;
         this.frames = [];
         this.particles = [];
@@ -105,6 +105,7 @@ class PortfolioScene {
     handleWheel(e) {
         e.preventDefault();
         this.zoomZ -= e.deltaY * 0.8;
+        this.zoomZ = Math.max(this.zoomZ, -5000);
         this.handleUserInteraction();
     }
 
@@ -126,7 +127,7 @@ class PortfolioScene {
                 e.touches[0].clientY - e.touches[1].clientY
             );
             const delta = (currentDistance - this.touchStartDistance) * 0.5;
-            this.zoomZ = this.touchStartZoom - delta * 20;
+            this.zoomZ = Math.max(this.touchStartZoom - delta * 20, -5000);
             this.handleUserInteraction();
         }
     }
@@ -137,9 +138,9 @@ class PortfolioScene {
         this.frames.forEach(frame => {
             const screenPos = frame.mesh.position.clone().project(this.camera);
             const dist = Math.hypot(mouseX - screenPos.x, mouseY - screenPos.y);
-            const baseScale = parseFloat(frame.div.style.getPropertyValue('--base-scale') || 1);
-            const hoverScale = dist < 0.2 ? baseScale * 1.05 : baseScale;
-            frame.div.style.transform = `translate(-50%, -50%) scale(${hoverScale})`;
+            this.animateElement(frame.div, {
+                transform: dist < 0.2 ? 'translate(-50%, -50%) scale(1.05)' : 'translate(-50%, -50%) scale(1)'
+            }, 300);
         });
     }
 
@@ -274,10 +275,9 @@ class PortfolioScene {
             mesh.userData.index = index;
             this.scene.add(mesh);
 
-            // Set initial styles
-            div.style.opacity = '0';
-            div.style.transform = 'translate(-50%, -50%) scale(0)';
-            div.style.pointerEvents = 'none';
+            // Set initial visibility
+            div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
+            div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 
             this.frames.push({ mesh, div, zPos: config.z });
         });
@@ -297,19 +297,7 @@ class PortfolioScene {
     }
 
     updateFrames() {
-        // Determine active frame and apply scale/opacity based on camera z-position
-        const totalFrames = this.frames.length;
-        const loopZ = -500 - (totalFrames - 1) * 1000; // -4500 for contact
-        const nextLoopZ = -500; // Logo
-
-        // Handle infinite looping
-        if (this.zoomZ < loopZ) {
-            this.zoomZ = nextLoopZ + (this.zoomZ - loopZ);
-        } else if (this.zoomZ > -500) {
-            this.zoomZ = loopZ + (this.zoomZ - nextLoopZ);
-        }
-
-        // Update active frame index
+        // Determine active frame based on camera z-position
         if (this.camera.position.z > -1000) {
             this.activeFrameIndex = 0; // Logo
         } else if (this.camera.position.z > -2000) {
@@ -326,7 +314,7 @@ class PortfolioScene {
             const markerIndex = parseInt(marker.dataset.index);
             let isActive = false;
             if (markerIndex === 0) {
-                isActive = this.activeFrameIndex === 0 || this.activeFrameIndex === 1;
+                isActive = this.activeFrameIndex === 0 || this.activeFrameIndex == 1;
             } else {
                 isActive = this.activeFrameIndex === markerIndex;
             }
@@ -335,38 +323,15 @@ class PortfolioScene {
 
         this.updateNavLinks();
 
-        // Update scale and opacity for each frame
         this.frames.forEach((frame, index) => {
-            const frameZ = frame.zPos;
-            const distance = Math.abs(this.camera.position.z - frameZ);
-            const windowSize = 1000; // Distance over which frame transitions
-
-            let opacity = 0;
-            let scale = 0;
-            let pointerEvents = 'none';
-
-            if (distance < windowSize) {
-                const progress = 1 - (distance / windowSize);
-                if (progress < 0.5) {
-                    // Fade in and grow from 0 to 1
-                    opacity = progress * 2; // 0 to 1
-                    scale = progress * 2; // 0 to 1
-                } else {
-                    // Fade out and grow from 1 to 1.5
-                    opacity = 2 - progress * 2; // 1 to 0
-                    scale = 1 + (progress - 0.5) * 1; // 1 to 1.5
-                }
-                pointerEvents = opacity > 0.5 ? 'auto' : 'none';
-            }
-
-            frame.div.style.opacity = opacity;
-            frame.div.style.setProperty('--base-scale', scale);
-            frame.div.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            frame.div.style.pointerEvents = pointerEvents;
-
+            const isActive = index === this.activeFrameIndex;
             if (index === 0) {
-                console.log(`Logo: opacity=${opacity}, scale=${scale}, cameraZ=${this.camera.position.z}`);
+                frame.div.classList.toggle('raw-logo-visible', isActive);
+                console.log('Logo visibility:', isActive, 'Camera Z:', this.camera.position.z, 'Classes:', frame.div.className);
+            } else {
+                frame.div.classList.toggle('frame-visible', isActive);
             }
+            frame.div.style.pointerEvents = isActive ? 'auto' : 'none';
         });
     }
 

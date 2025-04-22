@@ -2,13 +2,12 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.m
 
 class PortfolioScene {
     constructor() {
-        this.bioText = `I'm a 3D Animator with a passion for storytelling, graduating with distinction from Think Tank Training Centre. With a decade as a stage actor and voice-over artist, my animation journey began with The Iron Giant. Specializing in Autodesk Maya and Blender, I blend technical skill with performance intuition.`;
+        this.bioText = `I'm a 3D Animator with a passion for storytelling, graduating with distinction from Think Tank Training Centre. With a decade as a stage actor and voice-over artist, my animation journey began with a deep love for character-driven narratives. Specializing in Autodesk Maya and Blender, I blend technical skill with performance intuition.`;
         this.initScene();
         this.createContentFrames();
         this.setupEventListeners();
         this.animate();
         this.lastScrollTime = Date.now();
-        this.ironGiantTriggered = false;
         this.tooltipVisible = true;
         this.animations = [];
     }
@@ -257,46 +256,43 @@ class PortfolioScene {
             }
         ];
 
-        
         frameData.forEach((config, index) => {
-        const div = document.createElement('div');
-        div.className = index === 0 ? 'raw-logo' : 'frame';
-        div.innerHTML = config.html;
-        document.body.appendChild(div);
+            const div = document.createElement('div');
+            div.className = index === 0 ? 'raw-logo' : 'frame';
+            div.innerHTML = config.html;
+            document.body.appendChild(div);
 
-        // Error handling moved INSIDE the loop
-        const img = div.querySelector('img');
-        if (img) {
-            img.onerror = () => {
-                console.error('Failed to load image:', img.src);
-            };
-        }
+            const img = div.querySelector('img');
+            if (img) {
+                img.onerror = () => {
+                    console.error('Failed to load image:', img.src);
+                };
+            }
 
-        const mesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(20, 15),
-            new THREE.MeshBasicMaterial({ visible: false })
-        );
-        mesh.position.z = config.z;
-        mesh.userData.index = index;
-        this.scene.add(mesh);
+            const mesh = new THREE.Mesh(
+                new THREE.PlaneGeometry(20, 15),
+                new THREE.MeshBasicMaterial({ visible: false })
+            );
+            mesh.position.z = config.z;
+            mesh.userData.index = index;
+            this.scene.add(mesh);
 
-        // Position after the image loads
-        if (img) {
-            img.onload = () => {
+            if (img) {
+                img.onload = () => {
+                    div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
+                    div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
+                };
+            } else {
                 div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
                 div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
-            };
-        } else {
-            div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
-            div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
-        }
+            }
 
-        div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
-        div.style.pointerEvents = index === 0 ? 'auto' : 'none';
+            div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
+            div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 
-        this.frames.push({ mesh, div, zPos: config.z });
-    });
-}
+            this.frames.push({ mesh, div, zPos: config.z });
+        });
+    }
 
     updateNavLinks() {
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -393,23 +389,6 @@ class PortfolioScene {
         this.updateProgressBar();
         
         this.renderer.render(this.scene, this.camera);
-    }
-
-    triggerIronGiantEffect() {
-        const particles = new THREE.BufferGeometry();
-        const positions = new Float32Array(300 * 3);
-        for (let i = 0; i < 300; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 150;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 150 + 50;
-            positions[i * 3 + 2] = this.camera.position.z - 1200;
-        }
-        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particleSystem = new THREE.Points(
-            particles,
-            new THREE.PointsMaterial({ size: 4, color: 0xFF00FF })
-        );
-        this.scene.add(particleSystem);
-        setTimeout(() => this.scene.remove(particleSystem), 2500);
     }
 }
 

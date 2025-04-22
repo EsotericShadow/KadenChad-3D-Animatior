@@ -145,6 +145,8 @@ body {
 
 .raw-logo {
     position: absolute;
+    width: 200px; /* Added to ensure container has size */
+    height: 200px; /* Added to ensure container has size */
     opacity: 0;
     transform: translateY(40px);
     transition: all 0.8s ease-in-out;
@@ -161,8 +163,8 @@ body {
 }
 
 .raw-logo img {
-    max-width: 100%;
-    max-height: 200px;
+    width: 100%; /* Changed from max-width to fill container */
+    height: 100%; /* Changed from max-height to fill container */
     object-fit: contain;
     transition: transform 0.3s ease;
 }
@@ -357,8 +359,13 @@ body {
         padding: 2rem;
     }
 
+    .raw-logo {
+        width: 150px; /* Adjusted for mobile */
+        height: 150px; /* Adjusted for mobile */
+    }
+
     .raw-logo img {
-        max-height: 150px;
+        max-height: 150px; /* Kept for consistency, though width/height 100% will override */
     }
 
     .header-content {

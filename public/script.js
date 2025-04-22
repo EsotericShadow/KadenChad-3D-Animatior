@@ -193,7 +193,7 @@ class PortfolioScene {
     createContentFrames() {
         const frameData = [
             {
-                z: 0,
+                z: -500,
                 html: `
                     <div class="raw-logo">
                         <img src="./assets/Logo.png" alt="Kaden Chad Logo">
@@ -264,6 +264,9 @@ class PortfolioScene {
                 img.onerror = () => {
                     console.error('Failed to load image:', img.src);
                 };
+                img.onload = () => {
+                    console.log('Logo loaded successfully:', img.src);
+                };
             }
 
             const mesh = new THREE.Mesh(
@@ -296,14 +299,17 @@ class PortfolioScene {
     }
 
     updateFrames() {
-        if (this.camera.position.z > -2000) {
-            this.activeFrameIndex = this.camera.position.z > -1000 ? 0 : 1;
+        // Determine active frame based on camera z-position
+        if (this.camera.position.z > -1000) {
+            this.activeFrameIndex = 0; // Logo
+        } else if (this.camera.position.z > -2000) {
+            this.activeFrameIndex = 1; // Header
         } else if (this.camera.position.z > -3000) {
-            this.activeFrameIndex = 2;
+            this.activeFrameIndex = 2; // Bio
         } else if (this.camera.position.z > -4000) {
-            this.activeFrameIndex = 3;
+            this.activeFrameIndex = 3; // Reel
         } else {
-            this.activeFrameIndex = 4;
+            this.activeFrameIndex = 4; // Contact
         }
 
         document.querySelectorAll('.timeline-marker').forEach(marker => {
@@ -323,6 +329,7 @@ class PortfolioScene {
             const isActive = index === this.activeFrameIndex;
             if (index === 0) {
                 frame.div.classList.toggle('raw-logo-visible', isActive);
+                console.log('Logo visibility:', isActive, 'Camera Z:', this.camera.position.z);
             } else {
                 frame.div.classList.toggle('frame-visible', isActive);
             }

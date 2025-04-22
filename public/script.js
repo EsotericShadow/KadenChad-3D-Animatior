@@ -139,7 +139,7 @@ class PortfolioScene {
             const screenPos = frame.mesh.position.clone().project(this.camera);
             const dist = Math.hypot(mouseX - screenPos.x, mouseY - screenPos.y);
             this.animateElement(frame.div, {
-                transform: dist < 0.2 ? 'scale(1.05)' : 'scale(1)'
+                transform: dist < 0.2 ? 'translate(-50%, -50%) scale(1.05)' : 'translate(-50%, -50%) scale(1)'
             }, 300);
         });
     }
@@ -173,15 +173,12 @@ class PortfolioScene {
             const progress = Math.min(elapsed / duration, 1);
             
             for (const prop in properties) {
-                const targetValue = parseFloat(properties[prop]) || 0;
-                const currentValue = startValues[prop] + (targetValue - startValues[prop]) * progress;
-                
                 if (prop === 'transform') {
                     element.style.transform = properties[prop];
                 } else if (prop === 'opacity') {
-                    element.style.opacity = currentValue;
+                    element.style.opacity = properties[prop];
                 } else {
-                    element.style[prop] = `${currentValue}px`;
+                    element.style[prop] = `${properties[prop]}px`;
                 }
             }
             
@@ -277,16 +274,7 @@ class PortfolioScene {
             mesh.userData.index = index;
             this.scene.add(mesh);
 
-            if (img) {
-                img.onload = () => {
-                    div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
-                    div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
-                };
-            } else {
-                div.style.left = `${window.innerWidth/2 - div.offsetWidth/2}px`;
-                div.style.top = `${window.innerHeight/2 - div.offsetHeight/2}px`;
-            }
-
+            // Set initial visibility
             div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
             div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 
@@ -333,28 +321,12 @@ class PortfolioScene {
 
         this.frames.forEach((frame, index) => {
             const isActive = index === this.activeFrameIndex;
-
             if (index === 0) {
                 frame.div.classList.toggle('raw-logo-visible', isActive);
-                console.log('Logo Visibility:', frame.div.classList.contains('raw-logo-visible')); // Debugging
             } else {
                 frame.div.classList.toggle('frame-visible', isActive);
             }
             frame.div.style.pointerEvents = isActive ? 'auto' : 'none';
-
-            const vector = new THREE.Vector3();
-            vector.setFromMatrixPosition(frame.mesh.matrixWorld);
-            vector.project(this.camera);
-
-            const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
-            const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-
-            this.animateElement(frame.div, {
-                left: x - frame.div.offsetWidth / 2,
-                top: y - frame.div.offsetHeight / 2
-            }, 500);
-
-            frame.div.style.transform = isActive ? 'scale(1)' : 'scale(0.9)';
         });
     }
 

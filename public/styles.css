@@ -123,6 +123,9 @@ body {
 
 .frame {
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
     width: 65vw;
     max-width: 580px;
     padding: 2.5rem;
@@ -132,35 +135,36 @@ body {
     backdrop-filter: blur(8px);
     border: 2px solid #007bff;
     opacity: 0;
-    transform: translateY(40px);
     transition: all 0.8s ease-in-out;
     pointer-events: none;
 }
 
 .frame-visible {
     opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
 }
 
 .raw-logo {
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translateY(40px);
     width: 200px;
     height: 200px;
     opacity: 0;
-    transform: translateY(40px);
     transition: all 0.8s ease-in-out;
     pointer-events: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10; /* Ensure it’s above other elements */
+    z-index: 10;
 }
 
 .raw-logo-visible {
     opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
+    transform: translate(-50%, -50%) translateY(0);
+    pointer-events: auto;
 }
 
 .raw-logo img {

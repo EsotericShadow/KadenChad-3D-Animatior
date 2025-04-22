@@ -200,7 +200,7 @@ class PortfolioScene {
                 z: -500,
                 html: `
                     <div class="raw-logo">
-                        <img src="/assets/logo.png" alt="Kaden Chad Logo">
+                        <img src="/assets/Logo.png" alt="Kaden Chad Logo">
                     </div>
                 `
             },

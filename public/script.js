@@ -540,7 +540,7 @@ class PortfolioScene {
                             <div class="badge">Motion Capture</div>
                         </div>
                         <div class="profile-pic-container">
-                            <img src="assets/Character.png" alt="Kaden Chad" class="profile-pic">
+                            <img src="assets/profile_picture.png" alt="Kaden Chad" class="profile-pic">
                         </div>
                     `;
                 } else if (index === 2) {

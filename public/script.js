@@ -272,7 +272,7 @@ class PortfolioScene {
             this.scene.add(mesh);
 
             div.style.left = `${window.innerWidth / 2 - div.offsetWidth / 2}px`;
-            div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`;
+            div.style.top = `${window.innerHeight / 2 - div.offsetHeight / 2}px`; // Corrected from innerWidth to innerHeight
             div.classList.toggle(index === 0 ? 'raw-logo-visible' : 'frame-visible', index === 0);
             div.style.pointerEvents = index === 0 ? 'auto' : 'none';
 

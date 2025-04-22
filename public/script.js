@@ -195,9 +195,7 @@ class PortfolioScene {
             {
                 z: -500,
                 html: `
-                    <div class="raw-logo">
-                        <img src="./assets/Logo.png" alt="Kaden Chad Logo">
-                    </div>
+                    <img src="https://via.placeholder.com/200" alt="Kaden Chad Logo" class="logo-img">
                 `
             },
             {
@@ -265,7 +263,7 @@ class PortfolioScene {
                     console.error('Failed to load image:', img.src);
                 };
                 img.onload = () => {
-                    console.log('Logo loaded successfully:', img.src);
+                    console.log('Image loaded successfully:', img.src);
                 };
             }
 
@@ -329,7 +327,7 @@ class PortfolioScene {
             const isActive = index === this.activeFrameIndex;
             if (index === 0) {
                 frame.div.classList.toggle('raw-logo-visible', isActive);
-                console.log('Logo visibility:', isActive, 'Camera Z:', this.camera.position.z);
+                console.log('Logo visibility:', isActive, 'Camera Z:', this.camera.position.z, 'Classes:', frame.div.className);
             } else {
                 frame.div.classList.toggle('frame-visible', isActive);
             }

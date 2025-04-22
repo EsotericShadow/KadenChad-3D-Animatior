@@ -156,8 +156,7 @@ body {
     opacity: 0;
     transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
     pointer-events: none;
-    z-index: 50; /* Increased to ensure visibility */
-    border: 2px solid red; /* Debugging border */
+    z-index: 50;
 }
 
 .raw-logo-visible {

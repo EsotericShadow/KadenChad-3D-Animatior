@@ -257,6 +257,13 @@ class PortfolioScene {
             }
         ];
 
+        const img = div.querySelector('img');
+        if (img) {
+            img.onerror = () => {
+            console.error('Failed to load image:', img.src);
+            };
+        }
+
         frameData.forEach((config, index) => {
             const div = document.createElement('div');
             div.className = index === 0 ? 'raw-logo' : 'frame';

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaden Chad | 3D Animator Portfolio</title>
+    <meta name="description" content="Kaden Chad - 3D Character Animator specializing in Maya and Blender with a background in stage acting and voice-over artistry.">
+    <meta name="keywords" content="3D animator, character animation, Maya, Blender, motion capture, portfolio">
+    <meta name="author" content="Kaden Chad">
+    <meta property="og:title" content="Kaden Chad | 3D Animator Portfolio">
+    <meta property="og:description" content="Explore the work of Kaden Chad, a 3D Character Animator with a passion for storytelling and performance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaden-chad-3-d-animatior.vercel.app/">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/Character.png" type="image/png">
+    <!-- Import Three.js directly from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <img src="assets/Character.png" alt="Kaden Chad Logo">
+        </div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="loading-text">Entering the Animation Zone</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-logo">Kaden Chad</div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link active" data-index="0">Home</a></li>
+            <li><a href="#" class="nav-link" data-index="2">Bio</a></li>
+            <li><a href="#" class="nav-link" data-index="3">Reel</a></li>
+            <li><a href="#" class="nav-link" data-index="4">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Progress Timeline -->
+    <div id="progress-timeline">
+        <div class="timeline-marker active" data-index="0"></div>
+        <div class="timeline-marker" data-index="2"></div>
+        <div class="timeline-marker" data-index="3"></div>
+        <div class="timeline-marker" data-index="4"></div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip">Scroll to explore</div>
+
+    <!-- Three.js Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Social Orbs -->
+    <div class="social-orbs">
+        <a href="https://linkedin.com" target="_blank" class="orb linkedin" title="LinkedIn"></a>
+        <a href="https://facebook.com" target="_blank" class="orb facebook" title="Facebook"></a>
+        <a href="https://youtube.com" target="_blank" class="orb youtube" title="YouTube"></a>
+    </div>
+
+    <!-- Navigation Hints -->
+    <div class="navigation-hints">
+        <div class="hint-item pinch-hint">
+            <div class="hint-icon pinch"></div>
+            <div class="hint-text">Pinch to zoom</div>
+        </div>
+        <div class="hint-item scroll-hint">
+            <div class="hint-icon scroll"></div>
+            <div class="hint-text">Scroll to navigate</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -47,61 +47,38 @@ characters to life`;
         const delta = (currentDistance - this.touchStartDistance) * 0.5;
         
         // Reduced sensitivity for more precise control
-        const sensitivityFactor = 6;
+        const sensitivityFactor = 5;
         
         if (Math.abs(delta) > 5) {
             const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;
             
+            // Simple approach for frame navigation
             if (intendedZoomZ < -4500) {
-                if (this.camera.position.z <= -4450) { // Tolerance of 50 units
-                    // Camera is at or beyond contact frame, trigger direct jump to logo frame
-                    this.performSmoothTransition(-500);
-                } else {
-                    // Clamp to contact frame and ensure we stop there
-                    this.zoomZ = -4500;
-                    this.targetZoomZ = -4500;
-                    // Force a small delay before allowing further transitions
-                    this.isTransitioning = true;
-                    setTimeout(() => { this.isTransitioning = false; }, 300);
-                }
+                // If we're at the contact frame, jump to logo frame
+                this.performSmoothTransition(-500);
             } else if (intendedZoomZ > -400) {
-                if (this.camera.position.z >= -550) { // Tolerance of 50 units
-                    // Camera is at or before logo frame, trigger direct jump to contact frame
-                    this.performSmoothTransition(-4500);
-                } else {
-                    // Clamp to logo frame
-                    this.zoomZ = -500;
-                    this.targetZoomZ = -500;
-                }
+                // If we're at the logo frame, jump to contact frame
+                this.performSmoothTransition(-4500);
             } else {
-                // Calculate which threshold we're closest to
-                const closestThreshold = this.findClosestThreshold(intendedZoomZ);
+                // Normal movement between frames
+                this.zoomZ = intendedZoomZ;
                 
-                // If we're moving quickly, snap to the nearest frame
-                const isMovingQuickly = Math.abs(delta) > 20;
-                if (isMovingQuickly) {
-                    this.performSmoothTransition(closestThreshold);
-                } else {
-                    // Normal movement behavior
-                    this.zoomZ = intendedZoomZ;
-                    this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
-                    
-                    const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-                    const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-                    
-                    if (prevThresholdIndex !== currentThresholdIndex) {
-                        if (this.softLockEnabled) {
-                            this.targetZoomZ = this.zoomThresholds[currentThresholdIndex];
-                            this.isTransitioning = true;
-                            setTimeout(() => { this.isTransitioning = false; }, 1000);
-                        }
-                    }
+                // Ensure we stay within bounds
+                this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
+                
+                // Check if we crossed a threshold
+                const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
+                const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
+                
+                if (prevThresholdIndex !== currentThresholdIndex) {
+                    // Snap to the nearest frame
+                    this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
                 }
             }
         }
         
         this.handleUserInteraction();
-        }
+    }
     }
 
     initLoadingScreen() {
@@ -339,30 +316,17 @@ characters to life`;
         }
     }
 
-    // Helper method for smooth transitions
+    // Simplified helper method for smooth transitions
     performSmoothTransition(targetZ) {
+        // Set target directly
+        this.zoomZ = targetZ;
         this.targetZoomZ = targetZ;
+        
+        // Lock transitions briefly to prevent rapid changes
         this.isTransitioning = true;
-        
-        const transitionDuration = 1000;
-        const startTime = Date.now();
-        const startZoom = this.zoomZ;
-        
-        const animateTransition = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / transitionDuration, 1);
-            const easedProgress = this.easeInOutQuad(progress);
-            this.zoomZ = startZoom + (this.targetZoomZ - startZoom) * easedProgress;
-            
-            if (progress < 1) {
-                requestAnimationFrame(animateTransition);
-            } else {
-                this.zoomZ = this.targetZoomZ;
-                this.isTransitioning = false;
-            }
-        };
-        
-        requestAnimationFrame(animateTransition);
+        setTimeout(() => { 
+            this.isTransitioning = false;
+        }, 800);
     }
 
     handleWheel(e) {
@@ -373,6 +337,7 @@ characters to life`;
         const prevZoomZ = this.zoomZ;
         this.zoomZ -= e.deltaY * 0.8;
         
+        // Simple approach for frame navigation
         if (this.zoomZ < -4500) {
             // Direct jump to logo frame when scrolling past contact frame
             this.performSmoothTransition(-500);
@@ -380,17 +345,16 @@ characters to life`;
             // Direct jump to contact frame when scrolling before logo frame
             this.performSmoothTransition(-4500);
         } else {
+            // Ensure we stay within bounds
             this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
             
+            // Check if we crossed a threshold
             const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
             const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
             
             if (prevThresholdIndex !== currentThresholdIndex) {
-                if (this.softLockEnabled) {
-                    this.targetZoomZ = this.zoomThresholds[currentThresholdIndex];
-                    this.isTransitioning = true;
-                    setTimeout(() => { this.isTransitioning = false; }, 1000);
-                }
+                // Snap to the nearest frame
+                this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
             }
         }
         

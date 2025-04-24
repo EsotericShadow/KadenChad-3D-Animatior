@@ -35,7 +35,7 @@ characters to life`;
     }
 
     handleTouchMove(e) {
-    if (e.touches.length === 2 && !this.isTransitioning) {
+    if (e.touches.length === 2 && !this.isTransitioning && !this.isLoopTransitioning) {
         e.preventDefault();
         const currentDistance = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -52,28 +52,36 @@ characters to life`;
         if (Math.abs(delta) > 5) {
             const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;
             
-            // Simple approach for frame navigation
-            if (intendedZoomZ < -4500) {
-                // If we're at the contact frame, jump to logo frame
-                this.performSmoothTransition(-500);
-            } else if (intendedZoomZ > -400) {
-                // If we're at the logo frame, jump to contact frame
-                this.performSmoothTransition(-4500);
-            } else {
-                // Normal movement between frames
-                this.zoomZ = intendedZoomZ;
-                
-                // Ensure we stay within bounds
-                this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
-                
-                // Check if we crossed a threshold
-                const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-                const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-                
-                if (prevThresholdIndex !== currentThresholdIndex) {
-                    // Snap to the nearest frame
-                    this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
-                }
+            // Check if we've gone beyond the bounds for infinite loop
+            if (intendedZoomZ < this.minBound - 50) { // Past contact frame
+                // Loop to logo frame
+                this.isLoopTransitioning = true;
+                this.performSmoothTransition(this.maxBound);
+                setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
+                return;
+            } 
+            
+            if (intendedZoomZ > this.maxBound + 50) { // Before logo frame
+                // Loop to contact frame
+                this.isLoopTransitioning = true;
+                this.performSmoothTransition(this.minBound);
+                setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
+                return;
+            }
+            
+            // Normal movement between frames
+            this.zoomZ = intendedZoomZ;
+            
+            // Ensure we stay within bounds for normal navigation
+            this.zoomZ = Math.max(Math.min(this.zoomZ, this.maxBound), this.minBound);
+            
+            // Check if we crossed a threshold
+            const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
+            const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
+            
+            if (prevThresholdIndex !== currentThresholdIndex) {
+                // Snap to the nearest frame
+                this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
             }
         }
         
@@ -158,6 +166,13 @@ characters to life`;
         this.activeFrameIndex = 0;
         this.frames = [];
         this.particles = [];
+        
+        // Track if we're in a loop transition to prevent multiple triggers
+        this.isLoopTransitioning = false;
+        
+        // Define the min and max bounds for the infinite loop
+        this.minBound = -4500; // Contact frame
+        this.maxBound = -500;  // Logo frame
 
         this.createParticles();
         this.setupLights();
@@ -332,30 +347,39 @@ characters to life`;
     handleWheel(e) {
         e.preventDefault();
         
-        if (this.isTransitioning) return;
+        if (this.isTransitioning || this.isLoopTransitioning) return;
         
         const prevZoomZ = this.zoomZ;
         this.zoomZ -= e.deltaY * 0.8;
         
-        // Simple approach for frame navigation
-        if (this.zoomZ < -4500) {
-            // Direct jump to logo frame when scrolling past contact frame
-            this.performSmoothTransition(-500);
-        } else if (this.zoomZ > -400) {
-            // Direct jump to contact frame when scrolling before logo frame
-            this.performSmoothTransition(-4500);
-        } else {
-            // Ensure we stay within bounds
-            this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
-            
-            // Check if we crossed a threshold
-            const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-            const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-            
-            if (prevThresholdIndex !== currentThresholdIndex) {
-                // Snap to the nearest frame
-                this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
-            }
+        // Check if we've gone beyond the bounds for infinite loop
+        if (this.zoomZ < this.minBound - 50) { // Past contact frame
+            // Loop to logo frame
+            this.isLoopTransitioning = true;
+            this.performSmoothTransition(this.maxBound);
+            setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
+            return;
+        } 
+        
+        if (this.zoomZ > this.maxBound + 50) { // Before logo frame
+            // Loop to contact frame
+            this.isLoopTransitioning = true;
+            this.performSmoothTransition(this.minBound);
+            setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
+            return;
+        }
+        
+        // Normal navigation between frames
+        // Ensure we stay within bounds for normal navigation
+        this.zoomZ = Math.max(Math.min(this.zoomZ, this.maxBound), this.minBound);
+        
+        // Check if we crossed a threshold
+        const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
+        const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
+        
+        if (prevThresholdIndex !== currentThresholdIndex) {
+            // Snap to the nearest frame
+            this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
         }
         
         this.handleUserInteraction();

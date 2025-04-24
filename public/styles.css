@@ -420,11 +420,16 @@ body {
 
 /* Main wrapper */
 .frame {
-    max-width: 1200px;
-    margin: 60px auto; /* adds spacing from top and centers */
+    max-width: 100%; /* Or try 1400px or 1600px */
+    width: 100%;
+    margin: 60px auto;
     padding: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 
 /* Title */
 .frame h2 {

@@ -504,7 +504,7 @@ body {
     width: 45px;
     height: 45px;
     background-size: cover;
-    border-radius: 50%;
+    border-radius: 0%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: rgba(0, 0, 0, 0.5);
 }
@@ -515,11 +515,11 @@ body {
 }
 
 .linkedin {
-    background: url('assets/social/linkedin-logo.png') center/cover;
+    background: url('assets/linkedin-logo.png') center/cover;
 }
 
 .instagram {
-    background: url('assets/social/instagram-logo.png') center/cover;
+    background: url('assets/instagram-logo.png') center/cover;
 }
 
 .vimeo {

@@ -418,21 +418,55 @@ body {
     background: rgba(0, 123, 255, 0.4);
 }
 
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    margin: 2rem 0;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+/* Main wrapper */
+.frame {
+    max-width: 1200px;
+    margin: 60px auto; /* adds spacing from top and centers */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.video-container video {
+/* Title */
+.frame h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Video container */
+.video-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Responsive video using aspect ratio trick */
+.responsive-video {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+.responsive-video iframe {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border: none;
 }
+
+/* Optional media queries for fine-tuning */
+@media (max-width: 768px) {
+    .frame {
+        padding: 10px;
+    }
+
+    .frame h2 {
+        font-size: 1.5rem;
+    }
+}
+
 
 .contact-form {
     display: flex;

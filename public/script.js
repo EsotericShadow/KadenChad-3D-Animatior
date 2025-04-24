@@ -561,17 +561,26 @@ characters to life`;
         document.body.appendChild(bioFrame);
         this.bioFrame = bioFrame;
         
-        // Create reel frame with Vimeo embed
+        // Create reel frame with updated Vimeo embed
         const reelFrame = document.createElement('div');
         reelFrame.className = 'frame';
         reelFrame.innerHTML = `
             <h2>ANIMATION REEL</h2>
             <div class="video-container">
-                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1077504753?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="New_Demo - Kaden Chad"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                <div class="responsive-video">
+                    <iframe 
+                        src="https://player.vimeo.com/video/1071654651?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                        title="Kaden Chad CG Animation Demo April 2025"
+                        allowfullscreen>
+                    </iframe>
+                </div>
             </div>
         `;
         document.body.appendChild(reelFrame);
         this.reelFrame = reelFrame;
+
         
         // Create contact frame
         const contactFrame = document.createElement('div');

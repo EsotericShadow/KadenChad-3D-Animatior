@@ -46,52 +46,55 @@ characters to life`;
         
         const delta = (currentDistance - this.touchStartDistance) * 0.5;
         
-        const sensitivityFactor = 8;
+        // Reduced sensitivity for more precise control
+        const sensitivityFactor = 6;
         
         if (Math.abs(delta) > 5) {
             const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;
             
             if (intendedZoomZ < -4500) {
                 if (this.camera.position.z <= -4450) { // Tolerance of 50 units
-                    // Camera is at or beyond contact frame, trigger loop back
-                    this.targetZoomZ = -500;
-                    this.isTransitioning = true;
-                    
-                    const transitionDuration = 1000;
-                    const startTime = Date.now();
-                    const startZoom = this.zoomZ;
-                    
-                    const animateTransition = () => {
-                        const elapsed = Date.now() - startTime;
-                        const progress = Math.min(elapsed / transitionDuration, 1);
-                        const easedProgress = this.easeInOutQuad(progress);
-                        this.zoomZ = startZoom + (this.targetZoomZ - startZoom) * easedProgress;
-                        
-                        if (progress < 1) {
-                            requestAnimationFrame(animateTransition);
-                        } else {
-                            this.zoomZ = this.targetZoomZ;
-                            this.isTransitioning = false;
-                        }
-                    };
-                    
-                    requestAnimationFrame(animateTransition);
+                    // Camera is at or beyond contact frame, trigger direct jump to logo frame
+                    this.performSmoothTransition(-500);
                 } else {
-                    // Clamp to contact frame
+                    // Clamp to contact frame and ensure we stop there
                     this.zoomZ = -4500;
+                    this.targetZoomZ = -4500;
+                    // Force a small delay before allowing further transitions
+                    this.isTransitioning = true;
+                    setTimeout(() => { this.isTransitioning = false; }, 300);
+                }
+            } else if (intendedZoomZ > -400) {
+                if (this.camera.position.z >= -550) { // Tolerance of 50 units
+                    // Camera is at or before logo frame, trigger direct jump to contact frame
+                    this.performSmoothTransition(-4500);
+                } else {
+                    // Clamp to logo frame
+                    this.zoomZ = -500;
+                    this.targetZoomZ = -500;
                 }
             } else {
-                this.zoomZ = intendedZoomZ;
-                this.zoomZ = Math.max(this.zoomZ, -4500);
+                // Calculate which threshold we're closest to
+                const closestThreshold = this.findClosestThreshold(intendedZoomZ);
                 
-                const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-                const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-                
-                if (prevThresholdIndex !== currentThresholdIndex) {
-                    if (this.softLockEnabled) {
-                        this.targetZoomZ = this.zoomThresholds[currentThresholdIndex];
-                        this.isTransitioning = true;
-                        setTimeout(() => { this.isTransitioning = false; }, 1000);
+                // If we're moving quickly, snap to the nearest frame
+                const isMovingQuickly = Math.abs(delta) > 20;
+                if (isMovingQuickly) {
+                    this.performSmoothTransition(closestThreshold);
+                } else {
+                    // Normal movement behavior
+                    this.zoomZ = intendedZoomZ;
+                    this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
+                    
+                    const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
+                    const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
+                    
+                    if (prevThresholdIndex !== currentThresholdIndex) {
+                        if (this.softLockEnabled) {
+                            this.targetZoomZ = this.zoomThresholds[currentThresholdIndex];
+                            this.isTransitioning = true;
+                            setTimeout(() => { this.isTransitioning = false; }, 1000);
+                        }
                     }
                 }
             }
@@ -336,6 +339,32 @@ characters to life`;
         }
     }
 
+    // Helper method for smooth transitions
+    performSmoothTransition(targetZ) {
+        this.targetZoomZ = targetZ;
+        this.isTransitioning = true;
+        
+        const transitionDuration = 1000;
+        const startTime = Date.now();
+        const startZoom = this.zoomZ;
+        
+        const animateTransition = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / transitionDuration, 1);
+            const easedProgress = this.easeInOutQuad(progress);
+            this.zoomZ = startZoom + (this.targetZoomZ - startZoom) * easedProgress;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateTransition);
+            } else {
+                this.zoomZ = this.targetZoomZ;
+                this.isTransitioning = false;
+            }
+        };
+        
+        requestAnimationFrame(animateTransition);
+    }
+
     handleWheel(e) {
         e.preventDefault();
         
@@ -345,30 +374,13 @@ characters to life`;
         this.zoomZ -= e.deltaY * 0.8;
         
         if (this.zoomZ < -4500) {
-            this.targetZoomZ = -500;
-            this.isTransitioning = true;
-            
-            const transitionDuration = 1000;
-            const startTime = Date.now();
-            const startZoom = this.zoomZ;
-            
-            const animateTransition = () => {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / transitionDuration, 1);
-                const easedProgress = this.easeInOutQuad(progress);
-                this.zoomZ = startZoom + (this.targetZoomZ - startZoom) * easedProgress;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animateTransition);
-                } else {
-                    this.zoomZ = this.targetZoomZ;
-                    this.isTransitioning = false;
-                }
-            };
-            
-            requestAnimationFrame(animateTransition);
+            // Direct jump to logo frame when scrolling past contact frame
+            this.performSmoothTransition(-500);
+        } else if (this.zoomZ > -400) {
+            // Direct jump to contact frame when scrolling before logo frame
+            this.performSmoothTransition(-4500);
         } else {
-            this.zoomZ = Math.max(this.zoomZ, -4500);
+            this.zoomZ = Math.max(Math.min(this.zoomZ, -500), -4500);
             
             const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
             const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
@@ -385,8 +397,20 @@ characters to life`;
         this.handleUserInteraction();
     }
     
-    easeInOutQuad(t) {
-        return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    // Helper method to find the closest threshold to a given z value
+    findClosestThreshold(zValue) {
+        let closestThreshold = this.zoomThresholds[0];
+        let minDistance = Math.abs(zValue - closestThreshold);
+        
+        for (let i = 1; i < this.zoomThresholds.length; i++) {
+            const distance = Math.abs(zValue - this.zoomThresholds[i]);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestThreshold = this.zoomThresholds[i];
+            }
+        }
+        
+        return closestThreshold;
     }
 
     getThresholdIndex(zValue) {

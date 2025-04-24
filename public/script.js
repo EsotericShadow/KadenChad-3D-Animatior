@@ -34,6 +34,73 @@ characters to life`;
         document.body.classList.add(isTouchDevice ? 'touch-device' : 'non-touch-device');
     }
 
+    handleTouchMove(e) {
+    if (e.touches.length === 2 && !this.isTransitioning) {
+        e.preventDefault();
+        const currentDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        
+        const prevZoomZ = this.zoomZ;
+        
+        const delta = (currentDistance - this.touchStartDistance) * 0.5;
+        
+        const sensitivityFactor = 8;
+        
+        if (Math.abs(delta) > 5) {
+            const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;
+            
+            if (intendedZoomZ < -4500) {
+                if (this.camera.position.z <= -4450) { // Tolerance of 50 units
+                    // Camera is at or beyond contact frame, trigger loop back
+                    this.targetZoomZ = -500;
+                    this.isTransitioning = true;
+                    
+                    const transitionDuration = 1000;
+                    const startTime = Date.now();
+                    const startZoom = this.zoomZ;
+                    
+                    const animateTransition = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / transitionDuration, 1);
+                        const easedProgress = this.easeInOutQuad(progress);
+                        this.zoomZ = startZoom + (this.targetZoomZ - startZoom) * easedProgress;
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animateTransition);
+                        } else {
+                            this.zoomZ = this.targetZoomZ;
+                            this.isTransitioning = false;
+                        }
+                    };
+                    
+                    requestAnimationFrame(animateTransition);
+                } else {
+                    // Clamp to contact frame
+                    this.zoomZ = -4500;
+                }
+            } else {
+                this.zoomZ = intendedZoomZ;
+                this.zoomZ = Math.max(this.zoomZ, -4500);
+                
+                const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
+                const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
+                
+                if (prevThresholdIndex !== currentThresholdIndex) {
+                    if (this.softLockEnabled) {
+                        this.targetZoomZ = this.zoomThresholds[currentThresholdIndex];
+                        this.isTransitioning = true;
+                        setTimeout(() => { this.isTransitioning = false; }, 1000);
+                    }
+                }
+            }
+        }
+        
+        this.handleUserInteraction();
+        }
+    }
+
     initLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
         const loadingBar = document.querySelector('.loading-bar');

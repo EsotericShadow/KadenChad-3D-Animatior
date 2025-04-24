@@ -24,9 +24,29 @@ characters to life`;
         this.idleTimer = null;
         this.lastInteractionTime = Date.now();
         
+        // Disable browser zoom on mobile
+        this.disableBrowserZoom();
         this.detectTouchDevice();
         
         this.animate();
+    }
+    
+    disableBrowserZoom() {
+        // Prevent pinch zoom at the document level
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Set viewport to prevent user scaling
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (viewportMeta) {
+            viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        }
+        
+        // Apply CSS to prevent touch actions that might interfere
+        document.body.style.touchAction = 'none';
     }
     
     detectTouchDevice() {
@@ -37,6 +57,10 @@ characters to life`;
     handleTouchMove(e) {
     if (e.touches.length === 2 && !this.isTransitioning && !this.isLoopTransitioning) {
         e.preventDefault();
+        
+        // Disable browser zoom
+        document.body.style.touchAction = 'none';
+        
         const currentDistance = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
             e.touches[0].clientY - e.touches[1].clientY
@@ -46,43 +70,38 @@ characters to life`;
         
         const delta = (currentDistance - this.touchStartDistance) * 0.5;
         
-        // Reduced sensitivity for more precise control
-        const sensitivityFactor = 5;
+        // Increased sensitivity for more responsive frame navigation
+        const sensitivityFactor = 10;
         
         if (Math.abs(delta) > 5) {
             const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;
             
-            // Check if we've gone beyond the bounds for infinite loop
-            if (intendedZoomZ < this.minBound - 50) { // Past contact frame
-                // Loop to logo frame
-                this.isLoopTransitioning = true;
-                this.performSmoothTransition(this.maxBound);
-                setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
-                return;
-            } 
-            
-            if (intendedZoomZ > this.maxBound + 50) { // Before logo frame
-                // Loop to contact frame
-                this.isLoopTransitioning = true;
-                this.performSmoothTransition(this.minBound);
-                setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
-                return;
+            // Simplified frame navigation logic - focus on direct frame jumps
+            if (delta < 0) {  // Pinching in - move forward
+                const nextIndex = Math.min(this.activeFrameIndex + 1, this.zoomThresholds.length - 1);
+                if (nextIndex === this.zoomThresholds.length - 1 && this.activeFrameIndex === nextIndex) {
+                    // We're at the contact page and trying to go forward - loop to logo
+                    this.zoomZ = this.maxBound;
+                    this.activeFrameIndex = 0;
+                } else {
+                    this.zoomZ = this.zoomThresholds[nextIndex];
+                    this.activeFrameIndex = nextIndex;
+                }
+            } else {  // Pinching out - move backward
+                const prevIndex = Math.max(this.activeFrameIndex - 1, 0);
+                if (prevIndex === 0 && this.activeFrameIndex === prevIndex) {
+                    // We're at the logo page and trying to go backward - loop to contact
+                    this.zoomZ = this.minBound;
+                    this.activeFrameIndex = this.zoomThresholds.length - 1;
+                } else {
+                    this.zoomZ = this.zoomThresholds[prevIndex];
+                    this.activeFrameIndex = prevIndex;
+                }
             }
             
-            // Normal movement between frames
-            this.zoomZ = intendedZoomZ;
-            
-            // Ensure we stay within bounds for normal navigation
-            this.zoomZ = Math.max(Math.min(this.zoomZ, this.maxBound), this.minBound);
-            
-            // Check if we crossed a threshold
-            const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-            const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-            
-            if (prevThresholdIndex !== currentThresholdIndex) {
-                // Snap to the nearest frame
-                this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
-            }
+            // Force a small delay to prevent rapid transitions
+            this.isTransitioning = true;
+            setTimeout(() => { this.isTransitioning = false; }, 800);
         }
         
         this.handleUserInteraction();
@@ -350,37 +369,34 @@ characters to life`;
         if (this.isTransitioning || this.isLoopTransitioning) return;
         
         const prevZoomZ = this.zoomZ;
-        this.zoomZ -= e.deltaY * 0.8;
+        const direction = Math.sign(e.deltaY);
         
-        // Check if we've gone beyond the bounds for infinite loop
-        if (this.zoomZ < this.minBound - 50) { // Past contact frame
-            // Loop to logo frame
-            this.isLoopTransitioning = true;
-            this.performSmoothTransition(this.maxBound);
-            setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
-            return;
-        } 
-        
-        if (this.zoomZ > this.maxBound + 50) { // Before logo frame
-            // Loop to contact frame
-            this.isLoopTransitioning = true;
-            this.performSmoothTransition(this.minBound);
-            setTimeout(() => { this.isLoopTransitioning = false; }, 1000);
-            return;
+        // Simplified frame navigation logic - focus on direct frame jumps
+        if (direction > 0) {  // Scrolling down - move forward
+            const nextIndex = Math.min(this.activeFrameIndex + 1, this.zoomThresholds.length - 1);
+            if (nextIndex === this.zoomThresholds.length - 1 && this.activeFrameIndex === nextIndex) {
+                // We're at the contact page and trying to go forward - loop to logo
+                this.zoomZ = this.maxBound;
+                this.activeFrameIndex = 0;
+            } else {
+                this.zoomZ = this.zoomThresholds[nextIndex];
+                this.activeFrameIndex = nextIndex;
+            }
+        } else {  // Scrolling up - move backward
+            const prevIndex = Math.max(this.activeFrameIndex - 1, 0);
+            if (prevIndex === 0 && this.activeFrameIndex === prevIndex) {
+                // We're at the logo page and trying to go backward - loop to contact
+                this.zoomZ = this.minBound;
+                this.activeFrameIndex = this.zoomThresholds.length - 1;
+            } else {
+                this.zoomZ = this.zoomThresholds[prevIndex];
+                this.activeFrameIndex = prevIndex;
+            }
         }
         
-        // Normal navigation between frames
-        // Ensure we stay within bounds for normal navigation
-        this.zoomZ = Math.max(Math.min(this.zoomZ, this.maxBound), this.minBound);
-        
-        // Check if we crossed a threshold
-        const prevThresholdIndex = this.getThresholdIndex(prevZoomZ);
-        const currentThresholdIndex = this.getThresholdIndex(this.zoomZ);
-        
-        if (prevThresholdIndex !== currentThresholdIndex) {
-            // Snap to the nearest frame
-            this.performSmoothTransition(this.zoomThresholds[currentThresholdIndex]);
-        }
+        // Force a small delay to prevent rapid transitions
+        this.isTransitioning = true;
+        setTimeout(() => { this.isTransitioning = false; }, 800);
         
         this.handleUserInteraction();
     }

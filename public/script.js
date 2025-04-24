@@ -556,7 +556,6 @@ characters to life`;
         bioFrame.innerHTML = `
             <h2>FROM STAGE TO 3D</h2>
             <p>${this.bioText}</p>
-            <button class="btn">Hear My Story</button>
         `;
         document.body.appendChild(bioFrame);
         this.bioFrame = bioFrame;

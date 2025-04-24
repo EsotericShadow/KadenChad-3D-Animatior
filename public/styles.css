@@ -506,7 +506,6 @@ body {
     background-size: cover;
     border-radius: 50%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid #007bff;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -519,12 +518,12 @@ body {
     background: url('assets/social/linkedin-logo.png') center/cover;
 }
 
-.facebook {
-    background: url('assets/social/facebook-logo.png') center/cover;
+.instagram {
+    background: url('assets/social/instagram-logo.png') center/cover;
 }
 
-.youtube {
-    background: url('assets/social/youtube-logo.png') center/cover;
+.vimeo {
+    background: url('assets/social/vimeo-logo.png') center/cover;
 }
 
 /* Animations */

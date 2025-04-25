@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Locked viewport: no native zooming or scaling -->
+    <meta
+      name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               minimum-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no"
+    >
     <title>Kaden Chad | 3D Animator Portfolio</title>
     <meta name="description" content="Kaden Chad - 3D Character Animator specializing in Maya and Blender with a background in stage acting and voice-over artistry.">
     <meta name="keywords" content="3D animator, character animation, Maya, Blender, motion capture, portfolio">
@@ -14,8 +22,9 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/Character.png" type="image/png">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <!-- Import Three.js directly from CDN -->
+    <!-- EmailJS (for contact form) -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Three.js -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
 </head>
 <body>
@@ -68,6 +77,7 @@
         </div>
     </div>
 
+    <!-- Your main script -->
     <script src="script.js"></script>
 </body>
 </html>

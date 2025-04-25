@@ -479,7 +479,7 @@ body {
 
 .social-orbs {
     position: fixed;
-    bottom: 25px;
+    top: 25px;
     right: 25px;
     display: flex;
     flex-direction: column;

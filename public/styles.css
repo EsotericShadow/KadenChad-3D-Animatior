@@ -313,9 +313,9 @@ body {
 }
 
 .logo-img {
-    margin-bottom: 1rem
-    width: 200%;
-    height: 200%;
+
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     transition: transform 0.3s ease;
 }
@@ -628,15 +628,15 @@ body {
     }
 
     .frame {
-        width: 90vw;
+        width: 180vw;
         padding: 1.5rem;
-        max-height: 75vh;
+        max-height: 150vh;
         margin-top: 80px;
     }
 
     .raw-logo {
-        width: min(150px, 30vw);
-        height: min(150px, 30vw);
+        width: min(250px, 30vw);
+        height: min(250px, 30vw);
         margin-top: 80px;
     }
 

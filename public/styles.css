@@ -180,27 +180,10 @@ body {
     box-shadow: 0 0 15px rgba(0, 123, 255, 0.8);
 }
 
-.tooltip {
-    position: fixed;
-    top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ffffff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 25px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #007bff;
-    transition: opacity 0.8s ease;
-    z-index: 100;
-}
-
 /* Navigation Hints */
 .navigation-hints {
     position: fixed;
-    bottom: 25px;
+    top: 108px;
     left: 25px;
     display: flex;
     flex-direction: column;
@@ -677,7 +660,7 @@ body {
     .frame {
         width: 90vw;
         padding: 1.5rem 2rem;
-        max-height: 85vh;
+        max-height: 60vh;
         margin-top: 80px;
         margin-bottom:80px
         touch-action: pan-y; /* Enables vertical scrolling on touch devices */

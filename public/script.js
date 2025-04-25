@@ -46,7 +46,10 @@ characters to life`;
         }
         
         // Apply CSS to prevent touch actions that might interfere
-        document.body.style.touchAction = 'none';
+        // only block gestures on the Three.js canvas
+        const canvas = document.getElementById('canvas-container');
+        canvas.style.touchAction = 'none';
+
     }
     
     detectTouchDevice() {

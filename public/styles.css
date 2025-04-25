@@ -684,5 +684,9 @@ body {
         width: min(90px, 20vw);
         height: min(90px, 20vw);
     }
+    .header-content {
+        padding-top: -100px;
+    }
+}
 
 }

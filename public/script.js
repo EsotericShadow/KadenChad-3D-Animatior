@@ -731,19 +731,31 @@ characters to life`;
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const timeline = document.getElementById('progress-timeline');
-    if (timeline) {
-        for (let i = 0; i < 5; i++) {
-            const marker = document.createElement('div');
-            marker.className = 'timeline-marker';
-            marker.setAttribute('data-index', i);
-            if (i === 0) marker.classList.add('active');
-            timeline.appendChild(marker);
-        }
-    }
-    
-    window.portfolioScene = new PortfolioScene();
+document.addEventListener('DOMContentLoaded', function() {
+    var videoContainer = document.querySelector('.video-container');
+    if (videoContainer) {
+        // Disable pinch-zoom (two-finger) on the video container
+        videoContainer.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Disable double-tap zoom on the video container
+        var lastTouchTime = 0;
+        videoContainer.addEventListener('touchend', function(e) {
+            var now = Date.now();
+            if (now - lastTouchTime < 300) {
+                e.preventDefault();
+            }
+            lastTouchTime = now;
+        }, { passive: false });
+
+        // Optional: prevent legacy gesture events in iOS Safari
+        videoContainer.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+  window.portfolioScene = new PortfolioScene();
     
     document.getElementById('nav-home').onclick = (e) => {
         e.preventDefault();
@@ -772,4 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.portfolioScene.isTransitioning = true;
         setTimeout(() => { window.portfolioScene.isTransitioning = false; }, 1000);
     };
+    }
 });
+
+    

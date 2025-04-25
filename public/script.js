@@ -602,10 +602,10 @@ characters to life`;
         contactFrame.innerHTML = `
             <h2>CONNECT</h2>
             <div class="contact-form">
-                <input type="text" placeholder="Your Name">
-                <input type="email" placeholder="Your Email">
-                <textarea rows="5" placeholder="Your Message"></textarea>
-                <button>SEND MESSAGE</button>
+                <input type="text" id="name" name="name" placeholder="Your Name">
+                <input type="email" id="email" name="email" placeholder="Your Email">
+                <textarea rows="5" id="message" name="message" placeholder="Your Message"></textarea>
+                <button id="send-button">SEND MESSAGE</button>
             </div>
         `;
         document.body.appendChild(contactFrame);

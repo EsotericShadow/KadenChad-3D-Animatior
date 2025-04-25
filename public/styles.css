@@ -230,9 +230,11 @@ body {
     color: #ffffff;
 }
 
-/* Frame Styles */
-/* Frame Styles (with native pinch‐zoom disabled, single‐finger pan still allowed) */
+/* ────────────────────────────────────────────────────────────
+   3) FRAMES – allow only single‐finger vertical pan (no zoom)
+──────────────────────────────────────────────────────────── */
 .frame {
+    /* only vertical (Y) scrolling; pinch‐zoom and two‐finger pan are blocked */
     touch-action: pan-y;
 
     position: absolute;
@@ -404,12 +406,16 @@ body {
     width: 100%;
 }
 
-/* Responsive Video Wrapper (completely swallows native touch gestures so your JS always wins) */
+/* ────────────────────────────────────────────────────────────
+   4) VIDEO WRAPPER – swallow ALL native gestures in here
+──────────────────────────────────────────────────────────── */
 .responsive-video {
     position: relative;
     padding-top: 56.25%;
     height: 0;
     overflow: hidden;
+
+    /* no native touch gestures at all */
     touch-action: none;
 }
 
@@ -420,8 +426,11 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    pointer-events: auto;   /* ensure clicks/taps still work */
+
+    /* still allow taps/clicks to target the iframe */
+    pointer-events: auto;
 }
+
 
 .contact-form {
     display: flex;

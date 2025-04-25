@@ -290,8 +290,8 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: min(200px, 20vw);
-    height: min(200px, 20vw);
+    width: min(700px, 20vw);
+    height: min(700px, 20vw);
     opacity: 0;
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     pointer-events: none;

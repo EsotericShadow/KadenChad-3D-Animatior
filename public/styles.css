@@ -675,9 +675,27 @@ body {
     }
 
     .frame {
-        width: 95vw;
-        padding: 1.5rem 1.5rem;
-        margin-top: 90px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 80vw;
+    max-width: 800px;
+    max-height: 85vh;
+    padding: 2.5rem 3rem;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 123, 255, 0.3);
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    pointer-events: none;
+    z-index: 10;
+    will-change: transform, opacity;
+    overflow-y: auto;
+    margin-top: 60px;
+    touch-action: pan-y; /* Enables vertical scrolling on touch devices */
     }
 
     .social-orbs {

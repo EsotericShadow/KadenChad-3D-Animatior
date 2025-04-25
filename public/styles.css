@@ -683,11 +683,11 @@ body {
     .profile-pic-container {
         width: min(90px, 20vw);
         height: min(90px, 20vw);
-        top: 50px; /* Adjusted to match the new padding-top of .header-content */
+        top: 16px; /* Adjusted to match the new padding-top of .header-content */
     }
 
     .header-content {
-        padding-top: 50px; /* Reduced from 100px to move content up */
+        padding-top: 16px; /* Reduced from 100px to move content up */
     }
 }
 

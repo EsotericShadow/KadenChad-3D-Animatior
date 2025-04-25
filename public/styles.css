@@ -661,9 +661,9 @@ body {
         width: 90vw;
         padding: 1.5rem 2rem;
         max-height: 60vh;
-        margin-top: 80px;
-        margin-bottom:80px
-        touch-action: pan-y; /* Enables vertical scrolling on touch devices */
+        margin-top: 40px; /* Reduced from 80px to move the frame up */
+        margin-bottom: 80px;
+        touch-action: pan-y;
     }
 
     .social-orbs {
@@ -683,9 +683,11 @@ body {
     .profile-pic-container {
         width: min(90px, 20vw);
         height: min(90px, 20vw);
+        top: 50px; /* Adjusted to match the new padding-top of .header-content */
     }
+
     .header-content {
-        padding-top: -100px;
+        padding-top: 50px; /* Reduced from 100px to move content up */
     }
 }
 

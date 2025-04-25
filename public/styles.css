@@ -284,14 +284,13 @@ body {
     pointer-events: none;
 }
 
-/* Logo Styles */
 .raw-logo {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: min(200px, 20vw);
-    height: min(200px, 20vw);
+    width: min(500px, 50vw); /* 200px * 2.5, 20vw * 2.5 */
+    height: min(500px, 50vw); /* 200px * 2.5, 20vw * 2.5 */
     opacity: 0;
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     pointer-events: none;
@@ -313,7 +312,6 @@ body {
 }
 
 .logo-img {
-
     width: 100%;
     height: 100%;
     object-fit: contain;

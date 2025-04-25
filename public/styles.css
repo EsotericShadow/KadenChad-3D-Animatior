@@ -621,8 +621,8 @@ body {
     }
 
     .raw-logo {
-        width: min(250px, 30vw);
-        height: min(250px, 30vw);
+        width: min(450px, 30vw);
+        height: min(450px, 30vw);
         margin-top: 80px;
     }
 

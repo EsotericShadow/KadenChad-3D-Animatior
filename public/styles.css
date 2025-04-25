@@ -313,6 +313,7 @@ body {
 }
 
 .logo-img {
+    position: centre
     width: 200%;
     height: 200%;
     object-fit: contain;

@@ -404,14 +404,11 @@ body {
 
 /* Video Container */
 .video-container {
-    position: relative;
-    width: 100%;
-
-    /* block all native gestures */
-    touch-action: none !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
+    overflow: hidden;
+    -ms-touch-action: none; /* IE10+ */
+    touch-action: none;     /* disable all touch gestures (scroll, pinch, etc.) on video */
 }
+
 
 
 /* ────────────────────────────────────────────────────────────

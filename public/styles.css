@@ -681,6 +681,7 @@ body {
     }
 
     .profile-pic-container {
+        top: 100px;
         width: min(90px, 20vw);
         height: min(90px, 20vw);
     }

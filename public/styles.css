@@ -106,7 +106,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 20px 40px; /* Increased padding for better spacing */
     z-index: 1000;
     border-bottom: 1px solid rgba(0, 123, 255, 0.2);
     transition: transform 0.5s ease, opacity 0.5s ease;
@@ -153,7 +153,7 @@ body {
 
 #progress-timeline {
     position: fixed;
-    bottom: 25px;
+    bottom: 50px; /* Moved lower to avoid overlap with larger frame/logo */
     left: 50%;
     transform: translateX(-50%);
     width: 250px;
@@ -182,7 +182,7 @@ body {
 
 .tooltip {
     position: fixed;
-    top: 120px;
+    top: 150px; /* Adjusted to avoid overlap with nav-bar */
     left: 50%;
     transform: translateX(-50%);
     color: #ffffff;
@@ -200,8 +200,8 @@ body {
 /* Navigation Hints */
 .navigation-hints {
     position: fixed;
-    bottom: 25px;
-    left: 25px;
+    bottom: 80px; /* Moved lower to avoid frame overlap */
+    left: 40px; /* Increased left spacing */
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -254,8 +254,8 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 80vw;
-    max-width: 800px;
+    width: 70vw; /* Reduced to accommodate margins */
+    max-width: 720px; /* Adjusted for margins */
     max-height: 85vh;
     padding: 2.5rem;
     background: rgba(0, 0, 0, 0.85);
@@ -269,7 +269,9 @@ body {
     z-index: 10;
     will-change: transform, opacity;
     overflow-y: auto;
-    margin-top: 60px;
+    margin-top: 150px; /* Increased to avoid nav-bar overlap */
+    margin-left: 5vw; /* Added left margin */
+    margin-right: 5vw; /* Added right margin */
 }
 
 .frame-visible {
@@ -284,19 +286,20 @@ body {
     pointer-events: none;
 }
 
+/* Logo Styles */
 .raw-logo {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: min(500px, 50vw); /* 200px * 2.5, 20vw * 2.5 */
-    height: min(500px, 50vw); /* 200px * 2.5, 20vw * 2.5 */
+    width: min(500px, 50vw); /* 2.5X original */
+    height: min(500px, 50vw); /* 2.5X original */
     opacity: 0;
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     pointer-events: none;
     z-index: 50;
     will-change: transform, opacity;
-    margin-top: 60px;
+    margin-top: 150px; /* Scaled from 60px * 2.5 */
 }
 
 .raw-logo-visible {
@@ -328,7 +331,7 @@ body {
     align-items: start;
     gap: 2rem;
     position: relative;
-    padding-top: 60px;
+    padding-top: 80px; /* Increased to avoid nav-bar overlap */
 }
 
 .header-text {
@@ -416,7 +419,7 @@ body {
 .frame {
     max-width: 100%;
     width: 100%;
-    margin: 60px auto;
+    margin: 150px 5vw; /* Updated with top and side margins */
     padding: 20px;
     box-sizing: border-box;
     display: flex;
@@ -444,7 +447,7 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    pointer-events: none; /* Disable interaction with iframe to prevent zoom */
+    pointer-events: none;
 }
 
 .contact-form {
@@ -491,8 +494,8 @@ body {
 
 .social-orbs {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 100px; /* Moved higher to avoid frame overlap */
+    right: 40px; /* Increased right spacing */
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -615,7 +618,7 @@ body {
 @media (max-width: 768px) {
     .nav-bar {
         flex-direction: column;
-        padding: 10px 20px;
+        padding: 15px 30px; /* Adjusted padding */
     }
 
     .nav-links {
@@ -626,16 +629,18 @@ body {
     }
 
     .frame {
-        width: 180vw;
+        width: 160vw; /* Adjusted for margins */
         padding: 1.5rem;
         max-height: 150vh;
-        margin-top: 80px;
+        margin-top: 200px; /* Increased to avoid overlap */
+        margin-left: 5vw;
+        margin-right: 5vw;
     }
 
     .raw-logo {
-        width: min(250px, 30vw);
-        height: min(250px, 30vw);
-        margin-top: 80px;
+        width: min(625px, 75vw); /* 250px * 2.5 */
+        height: min(625px, 75vw); /* 250px * 2.5 */
+        margin-top: 200px; /* Adjusted for spacing */
     }
 
     .profile-pic-container {
@@ -646,21 +651,27 @@ body {
     }
 
     .header-content {
-        padding-top: 120px;
+        padding-top: 140px; /* Increased for larger logo */
     }
 
     .social-orbs {
-        bottom: 80px;
+        bottom: 120px; /* Adjusted to avoid frame */
         flex-direction: row;
         gap: 12px;
     }
 
     #progress-timeline {
         width: 180px;
+        bottom: 60px; /* Adjusted to avoid overlap */
     }
 
     .tooltip {
-        top: 120px;
+        top: 160px; /* Adjusted for spacing */
+    }
+
+    .navigation-hints {
+        bottom: 100px; /* Adjusted to avoid frame */
+        left: 30px;
     }
 
     .contact-form button {
@@ -670,7 +681,7 @@ body {
 
 @media (max-width: 480px) {
     .nav-bar {
-        padding: 10px 15px;
+        padding: 10px 20px;
     }
 
     .nav-logo {
@@ -682,14 +693,23 @@ body {
     }
 
     .frame {
-        width: 95vw;
+        width: 85vw; /* Adjusted for margins */
         padding: 1.5rem 1.2rem;
-        margin-top: 90px;
+        margin-top: 220px; /* Increased to avoid overlap */
+        margin-left: 5vw;
+        margin-right: 5vw;
+    }
+
+    .raw-logo {
+        width: min(625px, 75vw); /* Consistent with 768px */
+        height: min(625px, 75vw);
+        margin-top: 220px; /* Adjusted for spacing */
     }
 
     .social-orbs {
-        bottom: 60px;
+        bottom: 100px;
         gap: 10px;
+        right: 30px;
     }
 
     .orb {
@@ -699,6 +719,7 @@ body {
 
     #progress-timeline {
         width: 150px;
+        bottom: 70px; /* Adjusted to avoid overlap */
     }
 
     .profile-pic-container {
@@ -707,6 +728,15 @@ body {
     }
 
     .header-content {
-        padding-top: 100px;
+        padding-top: 120px;
+    }
+
+    .navigation-hints {
+        bottom: 120px; /* Adjusted to avoid frame */
+        left: 20px;
+    }
+
+    .tooltip {
+        top: 180px; /* Adjusted for spacing */
     }
 }

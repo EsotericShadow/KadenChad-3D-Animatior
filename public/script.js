@@ -558,7 +558,6 @@ characters to life`;
                     <div class="skill-badges">
                         <div class="badge">Maya</div>
                         <div class="badge">Blender</div>
-                        <div class="badge">Motion Capture</div>
                     </div>
                 </div>
                 <div class="profile-pic-container">

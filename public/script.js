@@ -1,3 +1,23 @@
+// 1) Prevent iOS Safari pinch/double-tap zoom
+document.addEventListener('gesturestart', e => e.preventDefault());
+document.addEventListener('gesturechange', e => e.preventDefault());
+document.addEventListener('gestureend', e => e.preventDefault());
+
+// 2) Prevent desktop pinch-zoom (Ctrl+wheel)
+window.addEventListener('wheel', e => {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// 3) Prevent keyboard zoom shortcuts (Ctrl + +, Ctrl + -, Ctrl + 0)
+window.addEventListener('keydown', e => {
+  if (e.ctrlKey && ['=','+','-','_','0'].includes(e.key)) {
+    e.preventDefault();
+  }
+});
+
+
 class PortfolioScene {
     constructor() {
         this.bioText = `I'm a 3D Animator with a passion for storytelling and performance, recently graduating with

@@ -406,7 +406,13 @@ body {
 .video-container {
     position: relative;
     width: 100%;
+
+    /* block all native gestures */
+    touch-action: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
 }
+
 
 /* ────────────────────────────────────────────────────────────
    4) VIDEO WRAPPER – swallow ALL native gestures in here
@@ -418,7 +424,9 @@ body {
     overflow: hidden;
 
     /* no native touch gestures at all */
-    touch-action: none;
+    touch-action: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
 }
 
 .responsive-video iframe {
@@ -431,6 +439,9 @@ body {
 
     /* still allow taps/clicks to target the iframe */
     pointer-events: auto;
+    touch-action: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
 }
 
 

@@ -49,8 +49,8 @@ body {
 }
 
 .loading-logo {
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     margin-bottom: 30px;
     animation: subtle-scale 2s infinite alternate;
 }

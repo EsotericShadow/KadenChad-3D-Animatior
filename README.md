@@ -1,14 +1,17 @@
 Portfolio Website Documentation
+
+
 Hey Kaden! This guide will walk you through updating your portfolio website, which is hosted in a private GitHub repository and deployed on Vercel. We’ll keep it super simple: you’ll set up GitHub, upload your changes using drag-and-drop in GitHub’s browser app, deploy them on Vercel (which is a breeze), and connect your custom domain if needed. You’ll also learn how to edit the CSS in styles.css and the HTML content in script.js to tweak colors, text, images, and more. If you run into any issues, just let me know, and we’ll hop on a video call to fix it together!
 
 Before You Begin:  
 
-Backup Files: Always save a copy of your original files before editing.  
+Backup Files: Always save a copy of your original files before editing(you will do this automatically, because youll be editing in githubs browser app and not editing the folder I send you in your system).  
+
+
 Tools You’ll Need:  
 A GitHub account (sign up at github.com).  
 A Vercel account (sign up at vercel.com).  
-Your custom domain (e.g., kadenchad.com).  
-A text editor like Notepad++ or Visual Studio Code.  
+Your custom domain (e.g., kadenchad.com).    
 Your portfolio’s public folder with files like index.html, script.js, and styles.css.
 
 
@@ -33,20 +36,17 @@ Steps:
 Sign In to GitHub:  
 
 Go to github.com and create an account if you don’t have one.  
-Ask me to add you as a collaborator to the private repo if you don’t have access yet.
 
 
-Create or Access Your Repository:  
+Create and Manage Your Repository:  
 
-If creating a new repo:  
+creating a new repo:  
+download the zip i sent your email
+Unzip the folder to your computer (e.g., Documents/portfolio).
 Click New on the GitHub homepage.  
 Name it (e.g., kaden-portfolio), set it to Private, and click Create repository.
 
 
-If accessing the existing repo:  
-Go to the repo (e.g., your-username/kaden-portfolio).  
-Click the green Code button, then Download ZIP.  
-Unzip the folder to your computer (e.g., Documents/portfolio).
 
 
 
@@ -56,26 +56,18 @@ Open the Public Folder:
 Inside the unzipped folder, find the public folder. This contains index.html, script.js, styles.css, and the assets folder for images.
 
 
-
-
 Editing CSS in styles.css
 The styles.css file controls your site’s look, like colors, fonts, and layouts. Here’s how to update it.
 Steps:
 
 Open styles.css:  
 
-Navigate to public/styles.css in your text editor.
+Navigate to public/styles.css in your Github Repository
 
 
 Make Changes:  
 
-Use Ctrl + F (or Cmd + F) to find specific sections (e.g., body, .nav-bar, .frame).  
 Update colors, fonts, or sizes as needed.
-
-
-Save the File:  
-
-Save your changes before uploading to GitHub.
 
 
 
@@ -264,29 +256,14 @@ Update placeholder: placeholder="Enter Your Name".
 
 
 
-Tip: Only edit text or attributes (e.g., src, alt). Don’t change the HTML structure unless you’re sure, as it could break the site.
+Tip: Only edit text or attributes (e.g., src, alt). Don’t change the HTML structure unless you’re sure, as it could break the site messing up margins and padding, leading to a giant mess, if you want help with this, I got you.
 
 
-Uploading Changes to GitHub
-After editing styles.css or script.js, upload the updated public folder to GitHub using drag-and-drop.
-Steps:
 
 Edit Your Files:  
 
-Update styles.css, script.js, or add new images to public/assets.  
-Save all changes.
-
-
-Go to GitHub in the Browser:  
-
-Open github.com and navigate to your portfolio repository.
-
-
-Drag and Drop to Upload:  
-
-Click the Add file button and select Upload files.  
-Drag the updated public folder from your computer into the browser window where it says “Drag files here to add them to your repository.”  
-Drop the folder—it’ll overwrite the old public folder.
+Update styles.css, script.js/ add new images to public/assets.  
+Save all changes by commiting them:
 
 
 Commit Your Changes:  
@@ -354,7 +331,6 @@ Ask me if you need help with this!
 Wait for It to Work:  
 
 It may take up to 48 hours, but usually connects in minutes.
-
 
 
 

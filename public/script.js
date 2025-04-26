@@ -14,7 +14,6 @@ class PortfolioScene {
         this.setupCustomCursor();
         this.initLoadingScreen();
         this.lastScrollTime = Date.now();
-        this.tooltipVisible = true;
         this.animations = [];
         this.previousFrameIndex = null;
         this.isTransitioning = false;

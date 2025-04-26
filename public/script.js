@@ -22,6 +22,8 @@ class PortfolioScene {
         this.immersiveMode = false;
         this.idleTimer = null;
         this.lastInteractionTime = Date.now();
+        this.wheelAccumulator = 0;
+        this.wheelThreshold   = 100;  // tweak sensitivity
 
         // Disable browser zoom on mobile
         this.disableBrowserZoom();
@@ -365,38 +367,48 @@ class PortfolioScene {
     }
 
     handleWheel(e) {
-        e.preventDefault();
-
-        if (this.isTransitioning || this.isLoopTransitioning) return;
-
-        const prevZoomZ = this.zoomZ;
-        const direction = Math.sign(e.deltaY);
-
-        if (direction > 0) {
-            const nextIndex = Math.min(this.activeFrameIndex + 1, this.zoomThresholds.length - 1);
-            if (nextIndex === this.zoomThresholds.length - 1 && this.activeFrameIndex === nextIndex) {
-                this.zoomZ = this.maxBound;
-                this.activeFrameIndex = 0;
-            } else {
-                this.zoomZ = this.zoomThresholds[nextIndex];
-                this.activeFrameIndex = nextIndex;
-            }
+      e.preventDefault();
+      // ignore pinch-to-zoom wheel events
+      if (e.ctrlKey) return;
+      // don’t double-fire during transitions
+      if (this.isTransitioning || this.isLoopTransitioning) return;
+    
+      // accumulate high-res trackpad deltas
+      this.wheelAccumulator += e.deltaY;
+      if (Math.abs(this.wheelAccumulator) < this.wheelThreshold) return;
+    
+      // decide direction once threshold is passed
+      const dir = Math.sign(this.wheelAccumulator);
+      if (dir > 0) {
+        // forward
+        const nextIndex = Math.min(this.activeFrameIndex + 1, this.zoomThresholds.length - 1);
+        if (nextIndex === this.zoomThresholds.length - 1 && this.activeFrameIndex === nextIndex) {
+          this.zoomZ = this.maxBound;
+          this.activeFrameIndex = 0;
         } else {
-            const prevIndex = Math.max(this.activeFrameIndex - 1, 0);
-            if (prevIndex === 0 && this.activeFrameIndex === prevIndex) {
-                this.zoomZ = this.minBound;
-                this.activeFrameIndex = this.zoomThresholds.length - 1;
-            } else {
-                this.zoomZ = this.zoomThresholds[prevIndex];
-                this.activeFrameIndex = prevIndex;
-            }
+          this.zoomZ = this.zoomThresholds[nextIndex];
+          this.activeFrameIndex = nextIndex;
         }
-
-        this.isTransitioning = true;
-        setTimeout(() => { this.isTransitioning = false; }, 800);
-
-        this.handleUserInteraction();
+      } else {
+        // backward
+        const prevIndex = Math.max(this.activeFrameIndex - 1, 0);
+        if (prevIndex === 0 && this.activeFrameIndex === prevIndex) {
+          this.zoomZ = this.minBound;
+          this.activeFrameIndex = this.zoomThresholds.length - 1;
+        } else {
+          this.zoomZ = this.zoomThresholds[prevIndex];
+          this.activeFrameIndex = prevIndex;
+        }
+      }
+    
+      // reset accumulator and lock out further wheel until transition ends
+      this.wheelAccumulator = 0;
+      this.isTransitioning  = true;
+      setTimeout(() => { this.isTransitioning = false; }, 800);
+    
+      this.handleUserInteraction();
     }
+    
 
     findClosestThreshold(zValue) {
         let closestThreshold = this.zoomThresholds[0];

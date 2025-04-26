@@ -1,7 +1,7 @@
 # Portfolio Website Documentation
 
 Hey Kaden!  
-This guide will walk you through updating your portfolio website, which is hosted in a private GitHub repository and deployed on Vercel. We’ll keep it super simple: you’ll set up GitHub, upload your changes using drag-and-drop in GitHub’s browser app, deploy them on Vercel (which is a breeze), and connect your custom domain if needed. You’ll also learn how to edit the CSS in `styles.css` and the HTML content in `script.js` to tweak colors, text, images, and more. If you run into any issues, just let me know, and we’ll hop on a video call to fix it together!
+This guide will walk you through updating your portfolio website, which is hosted in a private GitHub repository and deployed on Vercel. We’ll keep it super simple: you’ll set up GitHub, upload your folder using drag-and-drop in GitHub’s browser app, deploy it on Vercel (which is a breeze), and connect your custom domain if needed. You’ll also learn how to edit the CSS in `styles.css` and the HTML content in `script.js` to tweak colors, text, images, and more. If you run into any issues, just let me know, and we’ll hop on a video call to fix it together!
 
 ---
 

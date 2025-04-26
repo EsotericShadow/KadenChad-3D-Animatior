@@ -14,6 +14,7 @@ class PortfolioScene {
          this.setupCustomCursor();
          this.initLoadingScreen();
          this.lastScrollTime = Date.now();
+         this.tooltipVisible = true;
          this.animations = [];
          this.previousFrameIndex = null;
          this.isTransitioning = false;
@@ -45,6 +46,7 @@ class PortfolioScene {
          }
  
          // Apply CSS to prevent touch actions that might interfere
+         document.body.style.touchAction = 'none';
          // only block gestures on the Three.js canvas
          const canvas = document.getElementById('canvas-container');
          canvas.style.touchAction = 'none';
@@ -752,3 +754,4 @@ class PortfolioScene {
          window.portfolioScene.isTransitioning = true;
          setTimeout(() => { window.portfolioScene.isTransitioning = false; }, 1000);
      };
+ });

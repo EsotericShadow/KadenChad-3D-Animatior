@@ -490,6 +490,20 @@ body {
     z-index: 100;
 }
 
+/* assuming each orb container has a specific class */
+.orb.linkedin {
+    border-radius: 6px;
+}
+
+.orb.instagram {
+    border-radius: 16px;
+}
+
+.orb.vimeo {
+    border-radius: 32px;
+}
+
+
 .orb {
     width: 45px;
     height: 45px;

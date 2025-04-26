@@ -8,7 +8,7 @@ This guide will walk you through updating your portfolio website, which is hoste
 ## Before You Begin
 
 **Backup Files:**  
-Always save a copy of your original files before editing (you will do this automatically, because you’ll be editing in GitHub’s browser app and not editing the folder I send you in your system).
+Always save a copy of your original files before editing (you will do this automatically, because you’ll be editing in GitHub’s browser app and not editing the folder you download via the green <code> button above).
 
 **Tools You’ll Need:**
 - A GitHub account (sign up at [github.com](https://github.com)).
@@ -39,7 +39,7 @@ Your website lives in a private GitHub repository. Let’s get you set up to acc
 - Go to [github.com](https://github.com) and create an account if you don’t have one.
 
 **Create and Manage Your Repository:**
-- Download the zip I sent to your email.
+- Download the zip above.
 - Unzip the folder to your computer (e.g., `Documents/portfolio`).
 - Click **New** on the GitHub homepage.
 - Name it (e.g., `kaden-portfolio`), set it to **Private**, and click **Create repository**.

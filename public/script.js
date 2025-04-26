@@ -77,7 +77,7 @@ class PortfolioScene {
             const delta = (currentDistance - this.touchStartDistance) * 0.5;
 
             // Increased sensitivity for more responsive frame navigation
-            const sensitivityFactor = 7;
+            const sensitivityFactor = 5;
 
             if (Math.abs(delta) > 5) {
                 const intendedZoomZ = this.touchStartZoom - delta * sensitivityFactor;

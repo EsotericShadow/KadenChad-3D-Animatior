@@ -8,7 +8,7 @@ This guide will walk you through updating your portfolio website, which is hoste
 ## Before You Begin
 
 **Backup Files:**  
-Always save a copy of your original files before editing (you will do this automatically, because you’ll be editing in GitHub’s browser app and not editing the folder you download via the green ```"<>code v``` button above).
+Always save a copy of your original files before editing (you will do this automatically, because you’ll be editing in GitHub’s browser app and not editing the folder you download via the green ```<>code v``` button above).
 
 **Tools You’ll Need:**
 - A GitHub account (sign up at [github.com](https://github.com)).
